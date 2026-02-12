@@ -1,21 +1,11 @@
-import { SarFormFrame, SarShell } from "@/components/sar-app";
+import { SarFormFrame, SarShell, SubjectsList } from "@/components/sar-app";
 
 export default function SubjectInfoPage() {
   return (
     <SarShell title="SAR Case" primaryCta="Submit Form" mainTab="form">
       <SarFormFrame activeStep="subject" progress="32%">
         <div className="subject-layout">
-          <aside className="subject-list">
-            <h3>Subjects (5/20)</h3>
-            <p>Populated from Case</p>
-            <ul>
-              <li className="active">John Smith</li>
-              <li>John Smith</li>
-              <li>Michael Smith</li>
-              <li>Martin Smith</li>
-              <li>Acme Studio</li>
-            </ul>
-          </aside>
+          <SubjectsList />
 
           <section className="form-content">
             <div className="form-headline">

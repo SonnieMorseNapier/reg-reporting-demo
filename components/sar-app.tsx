@@ -19,6 +19,14 @@ type FormFrameProps = {
   children: ReactNode;
 };
 
+const subjects = [
+  { name: "John Smith", subtitle: "8 required fields missing", active: true },
+  { name: "John Smith", subtitle: "8 required fields missing", active: false },
+  { name: "Michael Smith", subtitle: "8 required fields missing", active: false },
+  { name: "Martin Smith", subtitle: "8 required fields missing", active: false },
+  { name: "Acme Studio", subtitle: "8 required fields missing", active: false }
+];
+
 const customerRows = [
   ["CX-592837", "John Smith", "Person", "Male", "2025-01-15"],
   ["CX-987654", "Ethan Williams", "Person", "Male", "2025-02-28"],
@@ -143,7 +151,13 @@ export function CustomersTable() {
       </div>
       <div className="table-footer">
         <span>Showing 8 of 8 items</span>
-        <span>Rows per page 10</span>
+        <span className="table-pager">
+          Rows per page <span className="pager-pill">10</span>
+          <span className="pager-btn">|&lt;</span>
+          <span className="pager-btn">&lt;</span>
+          <span className="pager-btn">&gt;</span>
+          <span className="pager-btn">&gt;|</span>
+        </span>
       </div>
     </section>
   );
@@ -188,9 +202,16 @@ export function TransactionsTable() {
       </div>
       <div className="table-footer">
         <span>Showing 8 of 8 items</span>
-        <span>Rows per page 10</span>
+        <span className="table-pager">
+          Rows per page <span className="pager-pill">10</span>
+          <span className="pager-btn">|&lt;</span>
+          <span className="pager-btn">&lt;</span>
+          <span className="pager-btn">&gt;</span>
+          <span className="pager-btn">&gt;|</span>
+        </span>
       </div>
       <div className="sticky-action">
+        <span className="close-chip">×</span>
         <span>2 Transactions Selected</span>
         <button type="button">Export</button>
         <button type="button">Clear Selection</button>
@@ -213,19 +234,43 @@ export function SarFormFrame({ activeStep, progress, ready, children }: FormFram
 
       <nav className="sar-steps" aria-label="Form sections">
         <Link href="/fincen/form/subject-info" className={stepClass(activeStep === "subject")}>
-          I - Subject Information
+          <span className="step-icon">◔</span> I - Subject Information
         </Link>
         <Link href="/fincen/form/suspicious-activity" className={stepClass(activeStep === "suspicious")}>
-          II - Suspicious Activity
+          <span className="step-icon">⌛</span> II - Suspicious Activity
         </Link>
-        <span className={stepClass(activeStep === "institution")}>III - Financial Institution</span>
-        <span className={stepClass(activeStep === "contact")}>IV - Contact Office</span>
+        <span className={stepClass(activeStep === "institution")}>
+          <span className="step-icon">⚠</span> III - Financial Institution
+        </span>
+        <span className={stepClass(activeStep === "contact")}>
+          <span className="step-icon">•</span> IV - Contact Office
+        </span>
         <Link href="/fincen/form/narrative" className={stepClass(activeStep === "narrative")}>
-          V - Narrative
+          <span className="step-icon">•</span> V - Narrative
         </Link>
       </nav>
 
       <div className="form-body">{children}</div>
     </section>
+  );
+}
+
+export function SubjectsList() {
+  return (
+    <aside className="subject-list">
+      <h3>Subjects (5/20)</h3>
+      <p>Populated from Case</p>
+      <ul>
+        {subjects.map((subject) => (
+          <li key={subject.name + subject.subtitle} className={subject.active ? "active" : ""}>
+            <div className="subject-row">
+              <span className="subject-name">{subject.name}</span>
+              <span className="trash">🗑</span>
+            </div>
+            <span className="subject-subtitle">{subject.subtitle}</span>
+          </li>
+        ))}
+      </ul>
+    </aside>
   );
 }
